@@ -1,0 +1,39 @@
+package com.example.capstone;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class ListActivity extends AppCompatActivity {
+
+    ListView firstlistview;
+    String[] rockname ;
+    Integer[] imgid = {R.drawable.limestone,R.drawable.quartz,R.drawable.diamond};
+
+    @Override
+    protected void onCreate ( Bundle savedInstanceState ) {
+        super.onCreate ( savedInstanceState );
+        setContentView ( R.layout.activity_list );
+        Resources res = getResources ();
+        firstlistview = (ListView) findViewById ( R.id.firstlistview );
+        rockname = res.getStringArray ( R.array.rocknamestring );
+        firstlistview.setAdapter ( new ArrayAdapter<String> (this,R.layout.listtemp) );
+        Customlistview customlistview = new Customlistview ( this,rockname,imgid );
+        firstlistview.setAdapter ( customlistview);
+
+        firstlistview.setOnClickListener ( new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick ( AdapterView<?> adapterView, View view, int i, long l ){
+                Intent showdetailactivity = new Intent ( getApplicationContext() , InformationActivity.class);
+                showdetailactivity.putExtra ( "com.example.capstone.ITEM_INDEX", i);
+                startActivity ( showdetailactivity );
+            }
+        } );
+    }
+}
